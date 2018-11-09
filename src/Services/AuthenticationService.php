@@ -33,7 +33,6 @@ class AuthenticationService
         $lastname = $userData['lastname'];
         $email = $userData['emails'];
         $password = $userData['password'];
-        dump($email);
         $role = $this->em->getRepository(ListRoles::class)->findOneBy(array('role'=>'ROLE_USER'));
         // ...
         $newProfile = new Profiles();
@@ -41,8 +40,6 @@ class AuthenticationService
         $newProfile->setLastname($lastname);
         $newProfile->setCreatedOn(new \DateTime());
         $newProfile->setModifiedOn(new \DateTime());
-        dump($newProfile);
-        $this->em->persist($newProfile);
         // ... 
         $newUser = new Users();
         $newUser->setProfile($newProfile);
@@ -52,16 +49,11 @@ class AuthenticationService
         $newUser->setPassword($this->encoder->encodePassword($newUser, $password));
         $newUser->setCreatedOn(new \DateTime());
         $newUser->setModifiedOn(new \DateTime());
-        dump($newUser); 
-        $this->em->persist($newUser);
         // ...
         $newEmail = new Emails();
         $newEmail->setEmail($email);
         $newEmail->setUser($newUser);
-        $newEmail->setCreatedOn(new \DateTime());
-        dump($newEmail);        
-        $this->em->persist($newEmail);      
-        $this->em->flush();     
+        $newEmail->setCreatedOn(new \DateTime());      
         return $newUser;
     }
     public function createNewUserBudgets($request)
@@ -109,7 +101,11 @@ class AuthenticationService
         // exist user??
         $existUser = $this->existUser($email);
         if(!$existUser){
-            return $this->createNewUser($userData);
+            $user = $this->createNewUser($userData);
+            $em = $this->em;
+            $em->persist($user);
+            $em->flush();
+            return $user;
         }else{
             $user = $this->em->getRepository(Users::class)->findOneBy(array('username'=>$email));
             return $user;

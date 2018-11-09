@@ -45,7 +45,7 @@ class Emails
     /**
      * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Users", inversedBy="emails")
+     * @ORM\ManyToOne(targetEntity="Users", inversedBy="emails", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
