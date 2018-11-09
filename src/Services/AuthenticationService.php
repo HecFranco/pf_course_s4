@@ -33,6 +33,7 @@ class AuthenticationService
         $lastname = $userData['lastname'];
         $email = $userData['emails'];
         $password = $userData['password'];
+        $locale = $userData['locale'];
         $role = $this->em->getRepository(ListRoles::class)->findOneBy(array('role'=>'ROLE_USER'));
         // ...
         $newProfile = new Profiles();
@@ -44,6 +45,7 @@ class AuthenticationService
         $newUser = new Users();
         $newUser->setProfile($newProfile);
         $newUser->addRole($role);
+        $newUser->setLocale($locale);
         $newUser->setUsername($email);
         $newUser->setPlainPassword($password);
         $newUser->setPassword($this->encoder->encodePassword($newUser, $password));
@@ -69,12 +71,14 @@ class AuthenticationService
         $firstname = $profile['firstname'];
         $lastname = $profile['lastname'];
         $email = $user['emails']["__name__"]["email"];
+        $locale = $request->getLocale();
         // entity to asociative array
         $userData = [
             'firstname'=>$firstname,
             'lastname'=>$lastname,
             'emails'=>$email,
-            'password'=>$this->generate_password()
+            'password'=>$this->generate_password(),
+            'locale'=>$locale
         ];
         // exist user??
         $existUser = $this->existUser($email);
@@ -95,12 +99,14 @@ class AuthenticationService
         $lastname = $profile['lastname'];
         $email = $formData['emails']["__name__"]["email"];
         $password = $formData['plainPassword']['first'];
+        $locale = $request->getLocale();
         // entity to asociative array
         $userData = [
             'firstname'=>$firstname,
             'lastname'=>$lastname,
             'emails'=>$email,
-            'password'=>$formData['plainPassword']['first']
+            'password'=>$formData['plainPassword']['first'],
+            'locale'=>$locale
         ];
         // exist user??
         $existUser = $this->existUser($email);

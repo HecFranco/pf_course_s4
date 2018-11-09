@@ -1,1 +1,12 @@
-<p>mail send</p>
+{# templates/emails/budgetComplete.html.twig #}
+<h3>You did it! You complete the budget!</h3>
+
+Hi {{ user.profile.firstname }}! You're successfully registered.
+
+You've just completed your budget. 
+The price shown is indicative. 
+In a few days we will contact you to resolve your doubts.
+
+To login, go to: <a href="{{ url('login') }}">...</a>.
+
+Thanks!

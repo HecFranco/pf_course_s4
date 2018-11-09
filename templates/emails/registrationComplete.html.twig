@@ -1,0 +1,10 @@
+{# templates/emails/registration.html.twig #}
+{% set user_locale = user.locale %}
+<h3>{% trans from "emails" into user_locale %}You did it! You registered!{% endtrans %}</h3>
+
+{% trans with {'%firstname%': user.profile.firstname} from "emails" into user_locale %}Hi %firstname% ! You're successfully registered.{% endtrans %}
+
+{# example, assuming you have a route named "login" #}
+{% trans from "emails" into user_locale %}To login, go to{% endtrans %}: <a href="{{ url('login') }}">...</a>.
+
+{% trans from "emails" into user_locale %}Thanks!{% endtrans %}

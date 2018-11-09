@@ -19,7 +19,15 @@ swiftmailer:
         ssl:
             verify_peer: false
             verify_peer_name: false
+    ###########################################
     # Disabling Sending (option to development)
-    # disable_delivery: true
+    disable_delivery: true
+    delivery_addresses: ['seo@prodigia.com']
+    ###########################################
+    # Source: https://symfony.com/doc/current/email/dev_environment.html#viewing-from-the-web-debug-toolbar
+    # To Viewing from the Web Debug Toolbar
+    # Using `dev` enviroment in the configuration of web_profiler.yaml select
+    #   intercept_redirects: true
+    ###########################################
 
     

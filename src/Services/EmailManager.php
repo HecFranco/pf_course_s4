@@ -32,7 +32,7 @@ class EmailManager
 
     public function budgetCompleted($email)
     {
-        $email = 'hector.franco.aceituno@gmail.com';
+        $user = $this->em->getRepository(Users::class)->findOneBy(array('username'=>$email));
         // returns the first mailer
         $message = (new \Swift_Message('Hello Email'))
         // ->setFrom('send@example.com')
@@ -43,13 +43,11 @@ class EmailManager
             $this->templating->render(
                 // templates/emails/budgetComplete.html.twig
                 'emails/budgetComplete.html.twig',
-                array('name' => 'Demo email')
+                array('user' => $user)
             ),
             'text/html'
         )
         ;            
         $this->mailer->send($message);
-
-        var_dump('mailer done');die();
     }
 }

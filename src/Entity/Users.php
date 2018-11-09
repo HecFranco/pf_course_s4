@@ -37,6 +37,13 @@ class Users implements UserInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="locale", type="string", length=250, nullable=false)
+     */
+    private $locale;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="password", type="string", length=250, nullable=false)
      */
     private $password;
@@ -118,6 +125,18 @@ class Users implements UserInterface
 
         return $this;
     }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }    
 
     public function getPassword(): ?string
     {
