@@ -53,7 +53,11 @@ class AuthenticationService
         $newEmail = new Emails();
         $newEmail->setEmail($email);
         $newEmail->setUser($newUser);
-        $newEmail->setCreatedOn(new \DateTime());      
+        $newEmail->setCreatedOn(new \DateTime());  
+        /*
+         * By using cascade persistence we do not persist here but at 
+         * the end point.
+         **/
         return $newUser;
     }
     public function createNewUserBudgets($request)
