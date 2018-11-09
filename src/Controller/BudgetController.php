@@ -89,13 +89,12 @@ class BudgetController extends BaseController
         $form->handleRequest($request);
         // Request Form
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $AuthenticationService->createNewUserBudgets($request);
             // get workflow & change workflow
             $workflow = $workflows->get($budget);
             $workflow->apply($budget, 'to_pending');
             // persist data
-            $budget->setUser(
-                $AuthenticationService->createNewUserBudgets($request)
-            );
+            $budget->setUser($user);
             $em->persist($budget);
             $em->flush();
             $sendingEmails->budgetCompleted($budget->getUser()->getUsername());
