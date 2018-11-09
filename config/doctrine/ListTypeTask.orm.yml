@@ -1,0 +1,67 @@
+App\Entity\ListTypeTask:
+    type: entity
+    table: list_type_task
+    indexes:
+        type_project:
+            columns:
+                - type_project_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        price:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+        note:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        description:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        createdOn:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: created_on
+    manyToOne:
+        typeProject:
+            targetEntity: ListTypeProject
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: tasks
+            joinColumns:
+                type_project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        projects:
+            targetEntity: Projects
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: tasks
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

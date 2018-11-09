@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{'My Profile'|trans}}{% endblock %}
+{% block section %}
+
+{% endblock %}
+{% block content %}
+		{% if user is not defined %}
+			{% set user = app.user %}
+		{% endif %}
+		<!-- Content
+		============================================= -->
+		<section id="content">
+			<div class="content-wrap">
+				<div class="container clearfix">
+					<div class="row clearfix">
+						<div class="col-md-9">
+							<img src="{{asset("files/general/defaultUser.jpg")}}" class="alignleft img-circle img-thumbnail notopmargin nobottommargin" alt="Avatar" style="max-width: 84px;">
+							<div class="heading-block noborder">
+								<h3>{{user.profile.lastname}}, {{user.profile.firstname}}</h3>
+								<span>{{user.roles[0]}}</span>
+							</div>
+							<div class="clear"></div>
+							<div class="row clearfix">
+								<div class="col-lg-12">
+									<div class="tabs tabs-alt clearfix" id="tabs-profile">
+										<ul class="tab-nav clearfix">
+											<li><a href="#tab-feeds">{{'My Profile'|trans}}</a></li>
+										</ul>
+										<div class="tab-container">
+											<div class="tab-content clearfix" id="tab-feeds">
+											{{ form_start(form, {'attr': {'class':'nobottommargin row'}}) }}
+												<div class="col-lg-12">
+													<div class="col_half">
+														<label for="billing-form-name">{{"Name"|trans}}:</label>
+														{{ form_row(form.profile.firstname) }}
+													</div>
+													<div class="col_half col_last">
+														<label for="billing-form-lname">{{"Last Name"|trans}}:</label>
+														{{ form_row(form.profile.lastname) }}
+													</div>
+													<div class="clear"></div>	
+												</div>			
+												<div class="col-lg-12">
+													<div class="col_half">
+														<label for="billing-form-lname">{{"Email"|trans}}:</label>
+															{% for email in form.emails %}
+            									 {{ form_row(email.email) }}
+        											{% endfor %}
+													</div>
+													<div class="col_half col_last">
+														<a href="#" style="display:inline;">
+															<label for="billing-form-lname">{{"Terms Accepted"|trans}} </label><br>
+															{{ form_widget(form.termsAccepted, { 'attr': {'class': 'd-inline'} }) }}
+														</a>
+													</div>
+													<div class="clear"></div>
+												</div>															
+												<div class="col-lg-12">
+													<div class="col_half">
+                            <label for="billing-form-name">{{"Password"|trans}}:</label>
+            	                {{ form_row(form.plainPassword.first) }}
+                          </div>
+                          <div class="col_half col_last">
+                            <label for="billing-form-lname">{{"Repeat Password"|trans}}:</label>
+                              {{ form_row(form.plainPassword.second) }}
+                            </div>
+                          <div class="clear"></div>
+												</div>
+												<div class="col-lg-12">
+													<div class="col_half col_last fright" style="padding-top:20px">
+														<button class="button button-3d fright">{{ button_label|default('Save') }}</button>
+													</div>
+													<div class="clear"></div>
+												</div>												
+											{{ form_end(form) }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="w-100 line d-block d-md-none"></div>
+						<div class="col-md-3 clearfix">
+							<div class="list-group">
+								<a href="{{path('profile', {'_locale': app.request.locale})}}" class="list-group-item list-group-item-action clearfix">
+									{{"My Profile"|trans}}<i class="icon-user float-right"></i>
+								</a>
+								<a href="#" class="list-group-item list-group-item-action clearfix">Billing <i class="icon-credit-cards float-right"></i></a>
+								<a href="{{path('logout')}}" class="list-group-item list-group-item-action clearfix">
+									{{"Logout"|trans}}<i class="icon-line2-logout float-right"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section><!-- #content end -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script> 
+        // generate Form User Emails
+        let collectionHolderEmails = document.getElementById('register_emails');
+        let collectionHolderEmailsAttribute = collectionHolderEmails.getAttribute('data-prototype'); 
+        console.log(collectionHolderEmailsAttribute);
+        collectionHolderEmails.innerHTML = collectionHolderEmailsAttribute;
+    </script>    
+{% endblock %}

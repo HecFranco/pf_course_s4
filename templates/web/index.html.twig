@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{'Home'|trans}}{% endblock %}
+{% block section %}
+            <section id="slider" class="slider-element slider-parallax" style="background: url('files/general/landing1.jpg') no-repeat; background-size: cover" data-height-xl="600" data-height-lg="500" data-height-md="400" data-height-sm="300" data-height-xs="250">
+                <div class="slider-parallax-inner">
+
+                    <div class="container clearfix">
+                        <div class="vertical-middle dark center">
+
+                            <div class="heading-block nobottommargin center">
+                                <h1>
+                                    <span class="text-rotater nocolor" data-separator="|" data-rotate="flipInX" data-speed="3500">
+                                        {{'We assure you the'|trans}} <span class="t-rotate">{{'Best Price|Best Service|Most Innovative Service|Fastest Service'|trans}}</span>
+                                    </span>
+                                </h1>
+                                <span id="calculator" class="d-none d-md-block">{{'Calculate your budget free of charge and without commitment'|trans}}</span>
+                            </div>
+                            <a href="{{path('calculator_new', {'_locale': app.request.locale})}}" class="button button-border button-light button-rounded button-reveal tright button-large topmargin d-md-inline-block"><i class="icon-angle-right"></i><span>{{'Start'|trans}}</span></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+{% endblock %}
+{% block content %}
+		<!-- Content
+		============================================= -->
+		<section id="content">
+			<div class="content-wrap">
+				<div class="container clearfix">
+					<div class="col_one_third nobottommargin">
+						<div class="feature-box fbox-border fbox-effect">
+							<div class="fbox-icon">
+								<a href="#"><i class="icon-stack i-alt"></i></a>
+							</div>
+							<h3>Premium Sliders Included</h3>
+							<p>Canvas included 20+ custom designed Slider Pages with Premium Sliders like Layer, Revolution, Swiper &amp; others.</p>
+						</div>
+					</div>
+
+					<div class="col_one_third nobottommargin">
+						<div class="feature-box fbox-border fbox-effect">
+							<div class="fbox-icon">
+								<a href="#"><i class="icon-tint i-alt"></i></a>
+							</div>
+							<h3>Unlimited Color Options</h3>
+							<p>Change the color scheme of the Theme in a flash just by changing the 6-digit HEX code in the colors.php file.</p>
+						</div>
+					</div>
+
+					<div class="col_one_third nobottommargin col_last">
+						<div class="feature-box fbox-border fbox-effect">
+							<div class="fbox-icon">
+								<a href="#"><i class="icon-text-width i-alt"></i></a>
+							</div>
+							<h3>CUSTOMIZABLE FONTS</h3>
+							<p>Use any Font you like from Google Web Fonts, Typekit or other Web Fonts. They will blend in perfectly.</p>
+						</div>
+					</div>
+                </div>
+            </div>
+        </section>
+		<!-- #content end -->        
+{% endblock %}

@@ -1,0 +1,38 @@
+# translations/messages.en.yaml
+# LAYOUT
+My Profile: My Profile
+Home: Home
+Register: Register
+Login:	Login
+Logout: Logout
+All Rights Reserved Inc.: Todos los derechos reservados
+Privacy Policy: Privacy Policy
+Terms of Use: Terms of Use
+Select Your Services: Select Your Services
+
+# HOME
+We assure you the: We assure you the
+Best Price|Best Service|Most Innovative Service|Fastest Service: Best Price|Best Service|Most Innovative Service|Fastest Service
+Calculate your budget free of charge and without commitment: Calculate your budget free of charge and without commitment
+Start: Start
+
+# SECURITY
+
+Login to your Account:	Login to your Account
+Email:	Email
+Password:	Password
+Forgot Password?:	Forgot Password?
+New Signup? Register for an Account: New Signup? Register for an Account
+Name: Name
+Last Name:	Last Name
+Repeat Password:	Repeat Password
+Terms Accepted:	Terms Accepted
+
+# CALCULATOR
+
+Note of Project: Notas del Proyecto
+Calculator: Calculator
+
+# DASHBOARD
+
+Dashboard: Dashboard

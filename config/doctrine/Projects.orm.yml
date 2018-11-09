@@ -1,0 +1,83 @@
+App\Entity\Projects:
+    type: entity
+    table: projects
+    indexes:
+        user_id:
+            columns:
+                - user_id
+        state_project_id:
+            columns:
+                - state_project_id
+        type_project_id:
+            columns:
+                - type_project_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdOn:
+            type: datetime
+            nullable: false
+            column: created_on
+        note:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+    manyToOne:
+        stateProject:
+            targetEntity: ListStateProject
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                state_project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        user:
+            targetEntity: Users
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        typeProject:
+            targetEntity: ListTypeProject
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                type_project_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        tasks:
+            targetEntity: ListTypeTask
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: projects
+            joinTable:
+                name: projects_tasks
+                joinColumns:
+                    -
+                        name: projects_id
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: task_id
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

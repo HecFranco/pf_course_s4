@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block section %}
+	<!-- Content
+	============================================= -->
+	<section id="content">    
+        <div class="content-wrap">
+            <div class="container clearfix">
+                <div class="accordion accordion-lg divcenter nobottommargin clearfix" style="max-width: 550px;">
+                    <a href="{{path('login')}}" style="color:black; font-size: 23px;line-height: 44px;font-weight: 400;">
+                        <i class="acc-open icon-unlock"></i>
+                        {{"Login to your Account"|trans}}
+                    </a>
+                    <div href="{{path('register')}}" style="color:black; font-size: 23px;line-height: 44px;font-weight: 400;">
+                        <i class="acc-closed icon-user4"></i>
+                        {{"New Signup? Register for an Account"|trans}}
+                    </div>
+                    <div class="clearfix">
+                        {{ form_start(form, {'attr': {'class':'nobottommargin row'}}) }}
+                            <div class="col-lg-12">
+                                <div class="col_half">
+                                    <label for="billing-form-name">{{"Name"|trans}}:</label>
+                                    {{ form_row(form.profile.firstname) }}
+                                </div>
+                                <div class="col_half col_last">
+                                    <label for="billing-form-lname">{{"Last Name"|trans}}:</label>
+                                    {{ form_row(form.profile.lastname) }}
+                                </div>
+                                <div class="clear"></div>	
+                            </div>
+                            <div class="col-lg-12">
+								<div style="margin-bottom:25px;">
+									<label for="billing-form-lname">{{"Email"|trans}}:</label>
+									{{ form_row(form.emails) }}
+                                </div>
+                                <div class="clear"></div>	
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col_half">
+                                    <label for="billing-form-name">{{"Password"|trans}}:</label>
+                                    {{ form_row(form.plainPassword.first) }}
+                                </div>
+                                <div class="col_half col_last">
+                                    <label for="billing-form-lname">{{"Repeat Password"|trans}}:</label>
+                                    {{ form_row(form.plainPassword.second) }}
+                                </div>
+                                <div class="clear"></div>	
+                            </div>                          
+                            <div class="col_full nobottommargin" style="padding:0px 15px;">
+                                <button class="button button-3d button-black nomargin" id="login-form-submit" type="submit" name="login-form-submit" >Login</button>
+                                <a href="#" class="fright" style="display:inline;">
+                                    {{"Terms Accepted"|trans}}   
+                                    {{ form_widget(form.termsAccepted, { 'attr': {'class': 'd-inline'} }) }}
+                                </a>
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+				</div>
+			</div>
+        </div>
+	</section>
+    <!-- #content end -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script> 
+        // generate Form User Emails
+        let collectionHolderEmails = document.getElementById('register_emails');
+        let collectionHolderEmailsAttribute = collectionHolderEmails.getAttribute('data-prototype'); 
+        console.log(collectionHolderEmailsAttribute);
+        collectionHolderEmails.innerHTML = collectionHolderEmailsAttribute;
+    </script>    
+{% endblock %}
+

@@ -1,0 +1,25 @@
+# https://support.google.com/accounts/answer/6010255
+# Permitir que aplicaciones menos seguras utilicen las cuentas
+# Let less secure apps access your account
+# https://myaccount.google.com/lesssecureapps
+swiftmailer:
+    #
+    #transport: 'gmail'
+    #host: '%env(MAILER_HOST)%'
+    #username: '%env(MAILER_USER)%'
+    #password: '%env(MAILER_PASSWORD)%'
+    #
+    url: '%env(MAILER_URL)%'
+    # Spool Using Memory    
+    spool: { type: 'memory' }
+    encryption:	ssl
+    auth_mode:	login
+    host:	smtp.gmail.com      
+    stream_options:
+        ssl:
+            verify_peer: false
+            verify_peer_name: false
+    # Disabling Sending (option to development)
+    # disable_delivery: true
+
+    

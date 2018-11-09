@@ -1,0 +1,86 @@
+App\Entity\Profiles:
+    type: entity
+    table: profiles
+    indexes:
+        gender:
+            columns:
+                - gender_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        image:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        firstname:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+        lastname:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+        nickname:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        dni:
+            type: string
+            nullable: true
+            length: 10
+            options:
+                fixed: false
+        birthdate:
+            type: date
+            nullable: true
+        yearOfBirth:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: year_of_birth
+        timezone:
+            type: string
+            nullable: true
+            length: 50
+            options:
+                fixed: false
+        modifiedOn:
+            type: datetime
+            nullable: false
+            #options:
+            #    default: CURRENT_TIMESTAMP
+            column: modified_on
+        createdOn:
+            type: datetime
+            nullable: false
+            #options:
+            #    default: CURRENT_TIMESTAMP
+            column: created_on
+    manyToOne:
+        gender:
+            targetEntity: ListGenders
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                gender_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

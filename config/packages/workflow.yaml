@@ -1,0 +1,55 @@
+# config/packages/workflow.yaml
+framework:
+    workflows:
+        budgets:
+            type: 'workflow' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'single_state' # or 'multiple_state'
+                arguments:
+                    - 'stateBudget'
+            supports:
+                - App\Entity\Budgets
+            initial_place: draft
+            places:
+                - draft
+                - pending
+                - approved
+                - rejected
+            transitions:
+                to_draft:
+                    to:   draft
+                to_pending:
+                    from: draft
+                    to:   pending
+                to_approved:
+                    from: pending
+                    to:   approved
+                to_rejected:
+                    from: pending
+                    to:   rejected
+        projects:
+            type: 'workflow' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'single_state' # or 'multiple_state'
+                arguments:
+                    - 'stateProject'
+            supports:
+                - App\Entity\Projects
+            initial_place: approved
+            places:
+                - approved
+                - in_process
+                - terminated
+            transitions:
+                to_approved:
+                    to:   approved
+                to_in_process:
+                    from: approved
+                    to:   in_process
+                to_terminated:
+                    from: in_process
+                    to:   terminated                 

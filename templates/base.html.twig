@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+        	<!-- Stylesheets
+            ============================================= -->
+            <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/dark.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/font-icons.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/animate.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}" type="text/css" />
+            <link rel="stylesheet" href="{{asset('css/responsive.css')}}" type="text/css" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <!-- Document Title
+            ============================================= -->
+        {% endblock %}
+    </head>
+    <body class="stretched">
+        <!-- Document Wrapper
+        ============================================= -->
+        <div id="wrapper" class="clearfix">
+            {% block header %}
+                <!-- Header
+                ============================================= -->
+                    <header id="header" class="transparent-header {% if app.request.attributes.get('_route') == 'home' %}dark{% endif %} full-header" data-sticky-class="not-dark">
+                        <div id="header-wrap">
+                            <div class="container clearfix">
+                                <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+                                <!-- Logo
+                                ============================================= -->
+                                <div id="logo">
+                                    <a href="{{path('home', {'_locale': app.request.locale})}}" class="standard-logo" data-dark-logo="{{asset('files/general/logo-dark.png')}}"><img src="{{asset('files/general/logo.png')}}" alt="Canvas Logo"></a>
+                                    <a href="{{path('home', {'_locale': app.request.locale})}}" class="retina-logo" data-dark-logo="{{asset('files/general/logo-dark@2x.png')}}"><img src="{{asset('files/general/logo@2x.png')}}" alt="Canvas Logo"></a>
+                                </div>
+                                <!-- #logo end -->
+                                <!-- Primary Navigation
+                                ============================================= -->
+                                <nav id="primary-menu">
+                                    <ul>
+                                        <li class="current"><a href="{{path('home', {'_locale': app.request.locale})}}"><div>{{'Home'|trans}}</div></a></li>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <li class="current"><a href="{{path('dashboard_admin', {'_locale': app.request.locale})}}"><div>{{'Dashboard'|trans}}</div></a></li>
+                                        {% endif %}
+                                        {% if  app.user %}
+                                            <li class="current"><a href="{{path('profile', {'_locale': app.request.locale})}}"><div>{{'My Profile'|trans}}</div></a></li>
+                                        {% endif %}
+                                        {% set parameters_url = app.request.attributes.get('_route_params') %}
+                                        <li><a href="#" class="sf-with-ul">{{app.request.locale}}<i class="icon-angle-down"></i></a>
+                                            <ul style="display: none;">
+                                                {% set path = app.request.get('_route') %}
+                                                {% set parameters_url = parameters_url|merge({'_locale': 'en'}) %}
+                                                <li><a href="{{ path(path, parameters_url) }}"><img src="images/icons/flags/english.png" alt="English"> EN</a></li>
+                                                {% set parameters_url = parameters_url|merge({'_locale': 'es'}) %}
+                                                <li><a href="{{ path(path, parameters_url) }}"><img src="images/icons/flags/spanih.png" alt="Spanish"> ES</a></li>
+                                            </ul>
+                                        </li>                                     
+                                        {% if  app.user %}
+                                            <li class="current"><a href="{{path('logout')}}"><div>{{'Logout'|trans}}</div></a>
+                                        {% endif %}
+                                    </ul>
+                                    <!-- Top User Options
+                                    ============================================= -->
+                                        {% if not app.user %}
+                                            <div id="top-cart" style="display:block">
+                                                <a href="#" id="top-cart-trigger"><i class="icon-user"></i></a>
+                                                <div class="top-cart-content">
+                                                    <div class="top-cart-items">
+                                                        <div class="top-cart-item clearfix">
+                                                            <div class="top-cart-item-desc">
+                                                                <a href="{{path('register', {'_locale': app.request.locale})}}">{{'Register'|trans}}</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="top-cart-item clearfix">
+                                                            <div class="top-cart-item-desc">
+                                                                <a href="{{path('login', {'_locale': app.request.locale})}}">{{'Login'|trans}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    <!-- #top-User Options -->
+                                </nav>
+                                <!-- #primary-menu end -->
+                            </div>
+                        </div>
+                    </header>
+                <!-- #header end -->
+            {% endblock %}
+            {% block section %}{% endblock %}
+            {% block content %}{% endblock %}
+            {% block body %}{% endblock %}
+            <!-- Footer
+            ============================================= -->
+            <footer id="footer" class="dark">
+                <!-- Copyrights
+                ============================================= -->
+                <div id="copyrights">
+                    <div class="container clearfix">
+                        <div class="col_half">
+                            Copyrights &copy; 2014 {{'All Rights Reserved Inc.'|trans}}<br>
+                            <div class="copyright-links"><a href="#">{{'Terms of Use'|trans}}</a> / <a href="#">{{'Privacy Policy'|trans}}</a></div>
+                        </div>
+                        <div class="col_half col_last tright">
+                            <div class="fright clearfix">
+                                <a href="#" class="social-icon si-small si-borderless si-facebook">
+                                    <i class="icon-facebook"></i>
+                                    <i class="icon-facebook"></i>
+                                </a>
+                                <a href="#" class="social-icon si-small si-borderless si-twitter">
+                                    <i class="icon-twitter"></i>
+                                    <i class="icon-twitter"></i>
+                                </a>
+                            </div>
+                            <div class="clear"></div>
+                            <i class="icon-envelope2"></i> info@canvas.com <span class="middot">&middot;</span> <i class="icon-headphones"></i> +91-11-6541-6369 <span class="middot">&middot;</span> <i class="icon-skype2"></i> CanvasOnSkype
+                        </div>
+                    </div>
+                </div>
+                <!-- #copyrights end -->
+            </footer>
+            <!-- #footer end -->
+        </div><!-- #wrapper end -->
+        {% block javascripts %}
+            <!-- External JavaScripts
+            ============================================= -->
+            <script src="{{asset('js/jquery.js')}}"></script>
+            <script src="{{asset('js/plugins.js')}}"></script>
+            <!-- Footer Scripts
+            ============================================= -->
+            <script src="{{asset('js/functions.js')}}"></script>
+            <script>
+                $(function() {
+                    $( "#side-navigation" ).tabs({ show: { effect: "fade", duration: 400 } });
+                });
+            </script> 
+        {% endblock %}
+    </body>
+</html>

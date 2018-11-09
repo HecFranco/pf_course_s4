@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block section %}
+    {% if error %}
+        <div class="alert alert-danger" id="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+	<!-- Content
+	============================================= -->
+	<section id="content">    
+        <div class="content-wrap">
+            <div class="container clearfix">
+                <div class="accordion accordion-lg divcenter nobottommargin clearfix" style="max-width: 550px;">
+                    <div style="color:black; font-size: 23px;line-height: 44px;font-weight: 400;">
+                        <i class="acc-open icon-unlock"></i>
+                        {{"Login to your Account"|trans}}
+                    </div>
+                    <div class="clearfix">
+                        <form id="login-form" name="login-form" class="nobottommargin" method="post">
+                            <div class="col_full">
+                                <label for="login-form-username">{{"Email"|trans}}:</label>
+                                <input type="text" value="{{ last_username }}" name="_username" id="inputUsername" class="form-control" placeholder="{{"Email"|trans}}">
+                            </div>
+                            <div class="col_full">
+                                <label for="login-form-password">{{"Password"|trans}}:</label>
+                                <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="{{"Password"|trans}}">
+                            </div>
+                            <input type="hidden" name="_csrf_token"
+                                value="{{ csrf_token('authenticate') }}"
+                            >
+                            <div class="col_full nobottommargin">
+                                <button class="button button-3d button-black nomargin" id="login-form-submit" type="submit" name="login-form-submit" >{{"Login"|trans}}</button>
+                                <a href="#" class="fright">{{"Forgot Password?"|trans}}</a>
+                            </div>
+                            {#
+                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                                See https://symfony.com/doc/current/security/remember_me.html
+                                    <div class="checkbox mb-3">
+                                        <label>
+                                            <input type="checkbox" name="_remember_me"> Remember me
+                                        </label>
+                                    </div>
+                                #}                                
+                        </form>
+                    </div>
+                    <a href="{{path('register')}}" style="color:black; font-size: 23px;line-height: 44px;font-weight: 400;">
+                        <i class="acc-closed icon-user4"></i>
+                        {{"New Signup? Register for an Account"|trans}}
+                    </a>
+                </div>
+			</div>
+		</div>
+	</section>
+    <!-- #content end -->
+{% endblock %}
+

@@ -1,0 +1,76 @@
+App\Entity\Users:
+    type: entity
+    repositoryClass: App\Repository\UsersRepository
+    table: users
+    indexes:
+        profile:
+            columns:
+                - profile_id
+    uniqueConstraints:
+        users_uniques_fields:
+            columns:
+                - username
+        UNIQ_1483A5E9CCFA12B8:
+            columns:
+                - profile_id
+    id:
+        id:
+            type: bigint
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 250
+            options:
+                fixed: false
+        plainPassword:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+            column: plain_password
+        isActive:
+            type: boolean
+            nullable: false
+            column: is_active
+        modifiedOn:
+            type: datetime
+            nullable: false
+            column: modified_on
+        createdOn:
+            type: datetime
+            nullable: false
+            column: created_on
+    oneToOne:
+        profile:
+            targetEntity: Profiles
+            cascade: ["persist"]
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                profile_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        emails:
+            targetEntity: Emails
+            cascade: ["persist"]
+            mappedBy: user      
+        userRoles:
+            targetEntity: UsersRoles
+            mappedBy: user
+    lifecycleCallbacks: {  }

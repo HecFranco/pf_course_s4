@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{'Calculator'|trans}}{% endblock %}
+{% block section %}
+			<!-- Content
+		============================================= -->
+		<section id="content">
+			<div class="content-wrap">
+				<div class="container clearfix">
+                	<div class="heading-block bottommargin nobottomborder center">
+						<h3>{{"Select Your Services"|trans}}</h3>
+					</div>                
+					<div class="row clearfix">
+						<div class="w-100 bottommargin"></div>					
+						<div class="col-lg-12">
+							{{ form_start(form, {'attr': {'class':'nobottommargin row'}}) }}
+								<div class="col-lg-6">
+									<h4>{{"Your Orders"|trans}}</h4>
+									<div class="table-responsive">
+										<table class="table cart">
+											<thead>
+												<tr>
+													<th class="cart-product-subtotal">Selected</th>
+													<th class="cart-product-name">{{"Services Extra"|trans}}</th>
+													<th class="cart-product-name">{{"Descritption"|trans}}</th>
+													<th class="cart-product-quantity">{{"Price"|trans}}</th>
+												</tr>
+											</thead>
+											<tbody>	
+												{% for taskProject in form.tasks %}
+													{% for taskSelectable in project.typeProject.tasks %}
+														{% if taskProject.vars["value"] == taskSelectable.id %}
+															<tr class="cart_item">
+																<td class="cart-product-thumbnail">
+																	{{ form_row(taskProject) }}															
+																</td>
+																<td class="cart-product-name">
+																	<span class="amount">{{taskSelectable.name}}</span>
+																</td>
+																<td class="cart-product-name">
+																	<span class="amount">{{taskSelectable.description}}</span>
+																</td>	
+																<td class="cart-product-subtotal">
+																	<span class="amount">{{taskSelectable.price|number_format(2, ',', '.')}} €</span>
+																</td>																													
+															</tr>
+														{% endif %}	
+													{% endfor %}
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>		
+								<div class="col-lg-6">
+									<h4>Cart Totals</h4>
+									<div class="table-responsive">
+										<table class="table cart">
+											<tbody>
+												<tr class="cart_item">
+													<td class="notopborder cart-product-name">
+														<strong>Cart Subtotal</strong>
+													</td>
+
+													<td class="notopborder cart-product-name">
+														<span class="amount">{{project.typeProject.basePrice|number_format(2, ',', '.')}} €</span>
+													</td>
+												</tr>
+												<tr class="cart_item">
+													<td class="cart-product-name">
+														<strong>Shipping</strong>
+													</td>
+
+													<td class="cart-product-name">
+														<span class="amount">Free Delivery</span>
+													</td>
+												</tr>
+												<tr class="cart_item">
+													<td class="cart-product-name">
+														<strong>{{"Total"|trans}}</strong>
+													</td>
+
+													<td class="cart-product-name">
+														<span class="amount color lead"><strong>{{project.typeProject.basePrice|number_format(2, ',', '.')}} €</strong></span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div class="accordion clearfix">
+										<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Direct Bank Transfer</div>
+										<div class="acc_content clearfix">Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</div>
+
+										<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Cheque Payment</div>
+										<div class="acc_content clearfix">Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.</div>
+
+										<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Paypal</div>
+										<div class="acc_content clearfix">Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur.</div>
+										<div class="col-lg-12">
+											<label for="billing-form-name">{{"Note of Project"|trans}}:</label>
+											{{ form_row(form.note) }}
+											<div class="clear"></div>	
+										</div> 
+									</div>
+									{% if app.user != null %}
+										<div class="col-lg-12">
+											<button class="button button-3d fright">{{ button_label|default('Save') }}</button>
+											<div class="clear"></div>
+										</div>	
+									{% endif %}								
+								</div>	
+								{% if app.user == null %}													
+									<div class="col-lg-12">
+										<div class="col_half">
+											<label for="billing-form-name">{{"Name"|trans}}:</label>
+											{{ form_row(form.user.profile.firstname) }}
+										</div>
+										<div class="col_half col_last">
+											<label for="billing-form-lname">{{"Last Name"|trans}}:</label>
+											{{ form_row(form.user.profile.lastname) }}
+										</div>
+										<div class="clear"></div>	
+									</div>						
+									<div class="col-lg-12">
+										<div class="col_half col_last">
+											<label for="billing-form-lname">{{"Email"|trans}}:</label>
+											{{ form_row(form.user.emails) }}
+										</div>
+										<div class="col_half col_last" style="padding-top:20px">
+											<button class="button button-3d fright">{{ button_label|default('Save') }}</button>
+										</div>
+										<div class="clear"></div>
+									</div>	
+								{% endif %}														
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</section><!-- #content end -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script> 
+        // generate Form User Emails
+        let collectionHolderEmails = document.getElementById('budgets_user_emails');
+        let collectionHolderEmailsAttribute = collectionHolderEmails.getAttribute('data-prototype'); 
+        console.log(collectionHolderEmailsAttribute);
+        collectionHolderEmails.innerHTML = collectionHolderEmailsAttribute;
+    </script>    
+{% endblock %}
