@@ -76,6 +76,13 @@ class ListTypeTask
     private $projects;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Budgets", mappedBy="tasks")
+     */
+    private $budgets;    
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -158,6 +165,14 @@ class ListTypeTask
         $this->typeProject = $typeProject;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Budgets[]
+     */
+    public function getBudgets(): Collection
+    {
+        return $this->budgets;
     }
 
     /**
