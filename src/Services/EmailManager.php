@@ -37,7 +37,7 @@ class EmailManager
      * Returns true if everything went well or false
      * if the mail could not be sent
      */
-    public function budgetCompletedClient($budget)
+    public function budgetPending($budget)
     {
         // get User Complete Budget
         $user=$budget->getUser();
@@ -50,7 +50,7 @@ class EmailManager
         ->setBody(
             $this->templating->render(
                 // templates/emails/budgetComplete.html.twig
-                'emails/budgetComplete.html.twig',
+                'emails/budgetPending.html.twig',
                 array('user' => $user)
             ),
             'text/html'
@@ -64,7 +64,7 @@ class EmailManager
      * Returns true if everything went well or false
      * if the mail could not be sent
      */
-    public function budgetApprovedClient($budget)
+    public function budgetApproved($budget)
     {
         // get User Complete Budget
         $user=$budget->getUser();        

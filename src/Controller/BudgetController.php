@@ -12,7 +12,7 @@ use Symfony\Component\Workflow\Exception\TransitionException;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-use App\Event\BudgetCompletedEvent;
+use App\Event\BudgetPendingEvent;
 
 use App\Entity\Budgets;
 use App\Entity\ListTypeProject;
@@ -100,9 +100,9 @@ class BudgetController extends BaseController
             $budget->setUser($user);
             $em->persist($budget);
             $em->flush();            
-            $budgetCompletedEvent = new BudgetCompletedEvent($budget);
+            $budgetPendingEvent = new BudgetPendingEvent($budget);
             // $eventDispatcher->dispatch( 'user.register', $userRegisterEvent );
-            $eventDispatcher->dispatch( BudgetCompletedEvent::NAME, $budgetCompletedEvent );
+            $eventDispatcher->dispatch( BudgetPendingEvent::NAME, $budgetPendingEvent );
             // redirect
             return $this->redirectToRoute('home', array('_locale' => $request->getLocale()));
         }
