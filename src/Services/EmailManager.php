@@ -37,8 +37,10 @@ class EmailManager
      * Returns true if everything went well or false
      * if the mail could not be sent
      */
-    public function budgetCompletedClient($user)
+    public function budgetCompletedClient($budget)
     {
+        // get User Complete Budget
+        $user=$budget->getUser();
         // returns the first mailer
         $message = (new \Swift_Message('Hello Email'))
         // ->setFrom('send@example.com')
@@ -55,4 +57,31 @@ class EmailManager
         );            
         return $this->mailer->send($message);
     }
+    /**
+     * Send a mail to the ManagerProject with the 
+     * information of the new application
+     *
+     * Returns true if everything went well or false
+     * if the mail could not be sent
+     */
+    public function budgetApprovedClient($budget)
+    {
+        // get User Complete Budget
+        $user=$budget->getUser();        
+        // returns the first mailer
+        $message = (new \Swift_Message('Hello Email'))
+        // ->setFrom('send@example.com')
+        ->setFrom($this->emailFrom)
+        // ->setTo('recipient@example.com')
+        ->setTo($user->getUsername())
+        ->setBody(
+            $this->templating->render(
+                // templates/emails/budgetComplete.html.twig
+                'emails/budgetApproved.html.twig',
+                array('user' => $user)
+            ),
+            'text/html'
+        );            
+        return $this->mailer->send($message);
+    }    
 }

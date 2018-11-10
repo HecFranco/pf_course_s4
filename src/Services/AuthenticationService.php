@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException; 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -19,13 +20,16 @@ class AuthenticationService
 {
     private $em;
     private $encoder;
-
+    private $user;
     public function __construct(
         EntityManagerInterface $em,
-        UserPasswordEncoderInterface $encoder)
+        TokenStorageInterface $tokenStorage,
+        UserPasswordEncoderInterface $encoder
+    )
     {
         $this->em = $em;
         $this->encoder = $encoder;
+        $this->user = $tokenStorage->getToken()->getUser();
     }
     public function createNewUser($userData)
     {
@@ -68,27 +72,34 @@ class AuthenticationService
     {
         // get data form
         $formData = $request->request->get('budgets');
-        $user = $formData['user'];
-        $profile = $user['profile'];
-        $firstname = $profile['firstname'];
-        $lastname = $profile['lastname'];
-        $email = $user['emails']["__name__"]["email"];
-        $locale = $request->getLocale();
-        // entity to asociative array
-        $userData = [
-            'firstname'=>$firstname,
-            'lastname'=>$lastname,
-            'emails'=>$email,
-            'password'=>$this->generate_password(),
-            'locale'=>$locale
-        ];
-        // exist user??
-        $existUser = $this->existUser($email);
-        if(!$existUser){
-            return $this->createNewUser($userData);
+        // userLogged??
+        $userLogged = (!isset($formData['user']))?true:false;
+        if(!$userLogged){
+            $user = $formData['user'];
+            $profile = $user['profile'];
+            $firstname = $profile['firstname'];
+            $lastname = $profile['lastname'];
+            $email = $user['emails']["__name__"]["email"];
+            $locale = $request->getLocale();
+            // entity to asociative array
+            $userData = [
+                'firstname'=>$firstname,
+                'lastname'=>$lastname,
+                'emails'=>$email,
+                'password'=>$this->generate_password(),
+                'locale'=>$locale
+            ];
+            // exist user??
+            $existUser = $this->existUser($email);
+            if(!$existUser){
+                return $this->createNewUser($userData);
+            }else{
+                return $this->em->getRepository(Users::class)->findOneBy(array('username'=>$email));
+            }
         }else{
-            return $this->em->getRepository(Users::class)->findOneBy(array('username'=>$email));
+            return $this->user;
         }
+
     }
     public function editUser($request)
     {

@@ -9,8 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Exception\TransitionException;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+use App\Event\BudgetCompletedEvent;
 
 use App\Entity\Budgets;
 use App\Entity\ListTypeProject;
@@ -79,9 +81,9 @@ class BudgetController extends BaseController
         Request $request, 
         AuthenticationService $AuthenticationService, 
         Budgets $budget, 
-        Registry $workflows, 
-        EmailManager $sendingEmails
-        ): Response
+        Registry $workflows,
+        EventDispatcherInterface $eventDispatcher
+    ): Response
     {
         $form = $this->createForm(BudgetsType::class, $budget);
         $form->handleRequest($request);
@@ -97,8 +99,11 @@ class BudgetController extends BaseController
             // persist data
             $budget->setUser($user);
             $em->persist($budget);
-            $em->flush();
-            $sendingEmails->budgetCompletedClient($user);
+            $em->flush();            
+            $budgetCompletedEvent = new BudgetCompletedEvent($budget);
+            // $eventDispatcher->dispatch( 'user.register', $userRegisterEvent );
+            $eventDispatcher->dispatch( BudgetCompletedEvent::NAME, $budgetCompletedEvent );
+            
             // redirect
             return $this->redirectToRoute('home', array('_locale' => $request->getLocale()));
         }

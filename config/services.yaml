@@ -53,3 +53,7 @@ services:
     App\Form\UsersType:
         public: true
         arguments:  ['@security.token_storage']
+    App\Services\AuthenticationService:
+        arguments: 
+            - '@doctrine.orm.entity_manager'
+            - '@security.token_storage'        
