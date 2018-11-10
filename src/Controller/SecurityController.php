@@ -8,6 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+use App\Event\RegisterEvent;
+
 use App\Entity\Users;
 
 use App\Form\RegisterType;
@@ -48,7 +53,11 @@ class SecurityController extends BaseController
      *      methods="GET|POST"
      * )
      */      
-    public function register(Request $request, AuthenticationService $AuthenticationService): Response
+    public function register(
+        Request $request, 
+        AuthenticationService $AuthenticationService,
+        EventDispatcherInterface $eventDispatcher
+    ): Response
     {
         // check for "view" access: calls all voters
         $this->denyAccessUnlessGranted('access', $this->getUser());
@@ -59,6 +68,9 @@ class SecurityController extends BaseController
         // check request
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $AuthenticationService->createNewUserRegister($request);
+            $registerEvent = new RegisterEvent($user);
+            // $eventDispatcher->dispatch( 'user.register', $registerEvent );
+            $eventDispatcher->dispatch( RegisterEvent::NAME, $registerEvent );
             return $this->redirectToRoute('home');
         }
         // generate view

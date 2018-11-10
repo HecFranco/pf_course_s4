@@ -103,7 +103,6 @@ class BudgetController extends BaseController
             $budgetCompletedEvent = new BudgetCompletedEvent($budget);
             // $eventDispatcher->dispatch( 'user.register', $userRegisterEvent );
             $eventDispatcher->dispatch( BudgetCompletedEvent::NAME, $budgetCompletedEvent );
-            
             // redirect
             return $this->redirectToRoute('home', array('_locale' => $request->getLocale()));
         }

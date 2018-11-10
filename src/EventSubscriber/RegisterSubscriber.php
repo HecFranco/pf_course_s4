@@ -6,12 +6,12 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-use App\Event\BudgetCompletedEvent;
+use App\Event\RegisterEvent;
 
 use App\Services\EmailManager;
-use App\Entity\Budgets;
+use App\Entity\Users;
 
-class budgetCompletedtSubscriber implements EventSubscriberInterface
+class RegisterSubscriber implements EventSubscriberInterface
 {
     private $entityManager;
     private $emailManager;
@@ -31,16 +31,14 @@ class budgetCompletedtSubscriber implements EventSubscriberInterface
     // is received
     public static function getSubscribedEvents(){
         return array(
-            BudgetCompletedEvent::NAME=>[
+            RegisterEvent::NAME=>[
                 'sendEmail', // method to call
                 // optional priority, default 0
             ]
         );
     }
-    public function sendEmail(
-        BudgetCompletedEvent $budgetCompletedEvent
-    )
+    public function sendEmail(RegisterEvent $registerEvent)
     {
-        $this->emailManager->budgetCompletedClient($budgetCompletedEvent->getBudget());
+        $this->emailManager->registerComplete($registerEvent->getUser());
     }
 }

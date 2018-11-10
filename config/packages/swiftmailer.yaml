@@ -22,7 +22,7 @@ swiftmailer:
     ###########################################
     # Disabling Sending (option to development)
     disable_delivery: true
-    delivery_addresses: ['seo@prodigia.com']
+    delivery_addresses: ['hector.franco.aceituno@gmail.com']
     ###########################################
     # Source: https://symfony.com/doc/current/email/dev_environment.html#viewing-from-the-web-debug-toolbar
     # To Viewing from the Web Debug Toolbar

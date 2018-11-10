@@ -83,5 +83,30 @@ class EmailManager
             'text/html'
         );            
         return $this->mailer->send($message);
-    }    
+    }  
+    /**
+     * Send a mail to the User already register with the 
+     * information of the aplication
+     *
+     * Returns true if everything went well or false
+     * if the mail could not be sent
+     */
+    public function registerComplete($user)
+    {     
+        // returns the first mailer
+        $message = (new \Swift_Message('Hello Email'))
+        // ->setFrom('send@example.com')
+        ->setFrom($this->emailFrom)
+        // ->setTo('recipient@example.com')
+        ->setTo($user->getUsername())
+        ->setBody(
+            $this->templating->render(
+                // templates/emails/budgetComplete.html.twig
+                'emails/register.html.twig',
+                array('user' => $user)
+            ),
+            'text/html'
+        );            
+        return $this->mailer->send($message);
+    }       
 }
