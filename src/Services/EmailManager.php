@@ -30,15 +30,21 @@ class EmailManager
         $this->emailFrom = $emailFrom;
     }
 
-    public function budgetCompleted($email)
+    /**
+     * Send a mail to the commercials with the 
+     * information of the new application
+     *
+     * Returns true if everything went well or false
+     * if the mail could not be sent
+     */
+    public function budgetCompletedClient($user)
     {
-        $user = $this->em->getRepository(Users::class)->findOneBy(array('username'=>$email));
         // returns the first mailer
         $message = (new \Swift_Message('Hello Email'))
         // ->setFrom('send@example.com')
-        ->setFrom('hector.franco.aceituno@gmail.com')
+        ->setFrom($this->emailFrom)
         // ->setTo('recipient@example.com')
-        ->setTo($email)
+        ->setTo($user)
         ->setBody(
             $this->templating->render(
                 // templates/emails/budgetComplete.html.twig
@@ -46,8 +52,7 @@ class EmailManager
                 array('user' => $user)
             ),
             'text/html'
-        )
-        ;            
-        $this->mailer->send($message);
+        );            
+        return $this->mailer->send($message);
     }
 }

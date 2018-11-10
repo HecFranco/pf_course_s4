@@ -1,12 +1,14 @@
 {# templates/emails/budgetComplete.html.twig #}
-<h3>You did it! You complete the budget!</h3>
+{% set user_locale = user.locale %}
+<h3>{% trans from "emails" into user_locale %}You did it! You complete the budget!{% endtrans %}</h3>
 
-Hi {{ user.profile.firstname }}! You're successfully registered.
+{% trans with {'%firstname%': user.profile.firstname} from "emails" into user_locale %}Hi %firstname% ! You're successfully the budget.{% endtrans %}
 
-You've just completed your budget. 
-The price shown is indicative. 
-In a few days we will contact you to resolve your doubts.
+{% trans from "emails" into user_locale %}You've just completed your budget.{% endtrans %}
+{% trans from "emails" into user_locale %}The price shown is indicative.{% endtrans %}
+{% trans from "emails" into user_locale %}In a few days we will contact you to resolve your doubts.{% endtrans %}
 
-To login, go to: <a href="{{ url('login') }}">...</a>.
+{# example, assuming you have a route named "login" #}
+{% trans from "emails" into user_locale %}To login, go to{% endtrans %}: <a href="{{ url('login') }}">...</a>.
 
-Thanks!
+{% trans from "emails" into user_locale %}Thanks!{% endtrans %}

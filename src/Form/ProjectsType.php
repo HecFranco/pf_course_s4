@@ -23,7 +23,9 @@ class ProjectsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new AddFieldProjectSubscriber());        
+        // Event Subscriber to define the fields to use by project data
+        $builder->addEventSubscriber(new AddFieldProjectSubscriber());     
+        // Event Listener to define the fields to use by user logged or no logged   
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             // ... adding the name field if needed
             $project = $event->getData();

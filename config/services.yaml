@@ -49,3 +49,7 @@ services:
         arguments: ['%kernel.default_locale%']
         # uncomment the next line if you are not using autoconfigure
         # tags: [kernel.event_subscriber]                
+
+    App\Form\UsersType:
+        public: true
+        arguments:  ['@security.token_storage']

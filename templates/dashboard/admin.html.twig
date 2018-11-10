@@ -24,6 +24,7 @@
 									<th>{{'DNI'|trans}}</th>
 									<th>{{'Activo'|trans}}</th>
 									<th>{{'Role'|trans}}</th>
+									<th>{{'Delete'|trans}}</th>
 								</tr>
 							</thead>
 							<tfoot>
@@ -33,16 +34,40 @@
 									<th>{{'DNI'|trans}}</th>
 									<th>{{'Activo'|trans}}</th>
 									<th>{{'Role'|trans}}</th>
+									<th>{{'Delete'|trans}}</th>
 								</tr>
 							</tfoot>
 							<tbody>
                             {% for user in listUsers %}
                                 <tr>
-									<td>{{user.profile.firstname}}</td>
-                                    <td>{{user.profile.lastname}}</td>
-                                    <td>{{user.profile.dni}}</td>
-									<td>{{user.isActive}}</td>
-                                    <td>{{user.roles|first}}</td>
+									<td>
+										<a href="{{ path('user_edit', {'id': user.id}) }}">
+											{{user.profile.firstname}}
+										</a>
+									</td>
+                                    <td>
+										<a href="{{ path('user_edit', {'id': user.id}) }}">
+											{{user.profile.lastname}}
+										</a>
+									</td>
+                                    <td>
+										<a href="{{ path('user_edit', {'id': user.id}) }}">
+											{{user.profile.dni}}
+										</a>
+									</td>
+                                    <td>
+										<a href="{{ path('user_edit', {'id': user.id}) }}">
+										{{user.isActive}}
+										</a>
+									</td>
+                                    <td>
+										<a href="{{ path('user_edit', {'id': user.id}) }}">
+											{{user.roles|first}}
+										</a>											
+									</td>
+                                    <td>
+										<a href="{{ path('user_delete', {'id': user.id}) }}" class="button button-3d button-rounded button-red"><i class="icon-off"></i>{{'Delete'|trans}}</a>											
+									</td>									
 								</tr>
                             {% endfor %}
 							</tbody>

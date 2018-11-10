@@ -83,12 +83,13 @@ class BudgetController extends BaseController
         EmailManager $sendingEmails
         ): Response
     {
-        // Entity Manager
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(BudgetsType::class, $budget);
         $form->handleRequest($request);
         // Request Form
         if ($form->isSubmitted() && $form->isValid()) {
+            // Entity Manager
+            $em = $this->getDoctrine()->getManager();
+            // Get User
             $user = $AuthenticationService->createNewUserBudgets($request);
             // get workflow & change workflow
             $workflow = $workflows->get($budget);
@@ -97,7 +98,7 @@ class BudgetController extends BaseController
             $budget->setUser($user);
             $em->persist($budget);
             $em->flush();
-            $sendingEmails->budgetCompleted($budget->getUser()->getUsername());
+            $sendingEmails->budgetCompletedClient($user);
             // redirect
             return $this->redirectToRoute('home', array('_locale' => $request->getLocale()));
         }

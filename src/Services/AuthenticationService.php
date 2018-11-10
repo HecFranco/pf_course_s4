@@ -90,6 +90,19 @@ class AuthenticationService
             return $this->em->getRepository(Users::class)->findOneBy(array('username'=>$email));
         }
     }
+    public function editUser($request)
+    {
+        // get data form
+        dump($request);
+        $formData = $request->request->get('register');
+        $profile = $formData['profile'];
+        $firstname = $profile['firstname'];
+        $lastname = $profile['lastname'];
+        $email = $formData['emails']["__name__"]["email"];
+        $password = $formData['plainPassword']['first'];
+        $locale = $request->getLocale();
+        die();
+    }
     public function createNewUserRegister($request)
     {
         // get data form

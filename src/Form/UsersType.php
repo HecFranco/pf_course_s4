@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -21,14 +23,36 @@ use App\Form\EmailsType;
 use App\Form\ProfilesType;
 
 use App\Entity\Profiles;
+use App\Entity\ListRoles;
 
 use App\Form\EventSubscriber\AddFieldUserSubscriber;
 
 class UsersType extends AbstractType
 {
-    
+    protected $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {       
+    {   
+        $user = $this->tokenStorage->getToken()->getUser();
+        if(in_array("ROLE_ADMIN", $user->getRoles())){
+            $builder
+            ->add('roles', EntityType::class, array(
+                'attr' => array('class' => 'sm-form-control'),
+                'label' => false,
+                // looks for choices from this entity
+                'class' => ListRoles::class,
+                // uses the User.username property as the visible option string
+                'choice_label' => 'role',
+                // used to render a select box, check boxes or radios
+                'multiple' => false,
+                'expanded' => false,
+            ));
+        }
+        // Standar fields form
         $builder
             ->add(
                 'emails', CollectionType::class, array(
