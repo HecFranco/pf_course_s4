@@ -37,16 +37,6 @@ class ListRoles
      */
     private $createdOn = 'CURRENT_TIMESTAMP';
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Users", mappedBy="role")
-     */
-    private $yes;
-
-    public function __construct()
-    {
-        $this->yes = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -76,33 +66,6 @@ class ListRoles
         return $this;
     }
 
-    /**
-     * @return Collection|Users[]
-     */
-    public function getYes(): Collection
-    {
-        return $this->yes;
-    }
-
-    public function addYe(Users $ye): self
-    {
-        if (!$this->yes->contains($ye)) {
-            $this->yes[] = $ye;
-            $ye->addRole($this);
-        }
-
-        return $this;
-    }
-
-    public function removeYe(Users $ye): self
-    {
-        if ($this->yes->contains($ye)) {
-            $this->yes->removeElement($ye);
-            $ye->removeRole($this);
-        }
-
-        return $this;
-    }
     public function __toString()
     {
         return $this->getRole();

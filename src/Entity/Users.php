@@ -93,9 +93,11 @@ class Users implements UserInterface
     private $emails;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ListRoles", inversedBy="yes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\ListRoles")
      */
     private $role;
+
+
 
     /**
      * Constructor
@@ -209,48 +211,8 @@ class Users implements UserInterface
 
         return $this;
     }
-/*
-    public function getRoles() {
-        $user_roles_array = $this->userRoles->toArray();
-        $roles = [];
-        foreach($user_roles_array as $user_role){
-            //@var UserRole $user_role
-            $roles[] = $user_role->getRole()->getRole();
-        }
-        return $roles;
-    }
-*/
-    /**
-     * @return Collection|ListRoles[]
-     */
-    public function getRoles()
-    {
-        $user_roles_array = $this->role->toArray();
-        $roles = [];
-        foreach($user_roles_array as $user_role){
-            //@var UserRole $user_role
-            $roles[] = $user_role->getRole();
-        }
-        return $roles;
-    }
 
-    public function addRole(ListRoles $role): self
-    {
-        if (!$this->role->contains($role)) {
-            $this->role[] = $role;
-        }
 
-        return $this;
-    }
-
-    public function removeRole(ListRoles $role): self
-    {
-        if ($this->role->contains($role)) {
-            $this->role->removeElement($role);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Emails[]
@@ -294,9 +256,33 @@ class Users implements UserInterface
     /**
      * @return Collection|ListRoles[]
      */
-    public function getRole(): Collection
+    public function getRoles()
     {
-        return $this->Role;
+        $user_roles_array = $this->role->toArray();
+        $roles = [];
+        foreach($user_roles_array as $user_role){
+            //@var UserRole $user_role
+            $roles[] = $user_role->getRole();
+        }
+        return $roles;
+    }
+
+    public function addRole(ListRoles $role): self
+    {
+        if (!$this->role->contains($role)) {
+            $this->role[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(ListRoles $role): self
+    {
+        if ($this->role->contains($role)) {
+            $this->role->removeElement($role);
+        }
+
+        return $this;
     }
 
 }

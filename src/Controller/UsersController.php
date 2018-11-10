@@ -46,7 +46,7 @@ class UsersController extends BaseController
             return $this->redirectToRoute('dashboard_admin');
         }
 
-        return $this->render('web/user.html.twig', [
+        return $this->render('dashboard/admin_edit_user.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
