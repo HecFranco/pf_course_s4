@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{'Edit TypeProject'|trans}}{% endblock %}
+{% block section %}
+
+{% endblock %}
+{% block content %}
+		{% if user is not defined %}
+			{% set user = app.user %}
+		{% endif %}
+		<!-- Content
+		============================================= -->
+		<section id="content">
+			<div class="content-wrap">
+				<div class="container clearfix">
+					<div class="row clearfix">
+						<div class="col-md-9">
+							<div class="heading-block noborder">
+								<h3>{{listTypeProject.name}}</h3>
+							</div>
+							<div class="clear"></div>
+							<div class="row clearfix">
+								<div class="col-lg-12">
+									<div class="tabs tabs-alt clearfix" id="tabs-profile">
+										<div class="tab-container">
+											<div class="tab-content clearfix" id="tab-feeds">
+											{{ form_start(form, {'attr': {'class':'nobottommargin row'}}) }}
+												<div class="col-lg-12">
+													<div class="col_half">
+														<label for="billing-form-name">{{"Name"|trans}}:</label>
+														{{ form_row(form.name) }}
+													</div>
+													<div class="col_half col_last">
+														<label for="billing-form-lname">{{"Description"|trans}}:</label>
+														{{ form_row(form.description) }}
+													</div>
+													<div class="clear"></div>	
+												</div>			
+												<div class="col-lg-12">
+													<div class="col_half">
+														<label for="billing-form-name">{{"Base Price"|trans}}:</label>
+														{{ form_row(form.basePrice) }}
+													</div>
+													<div class="clear"></div>	
+												</div>	
+												<div id="email-fields-list"
+													data-prototype="{{ form_widget(form.tasks.vars.prototype)|e }}"
+													data-widget-tags="{{ '<div></div>'|e }}"
+													class="col-lg-12"
+												>
+													{% for key, tasksField in form.tasks %}
+														<div class="col_half">
+															<label for="billing-form-name">{{"Tasks"|trans}} - {{key}}:</label>
+															{{ form_widget(tasksField.name) }}
+															<div class="clear"></div>
+														</div>
+														<div class="col_half col_last fright">
+															<label for="billing-form-name">{{"Price"|trans}}:</label>
+															{{ form_widget(tasksField.price) }}
+															<div class="clear"></div>
+														</div>	
+														<div class="col_half">
+															<label for="billing-form-name">{{"Description"|trans}} - {{key}}:</label>
+															{{ form_widget(tasksField.description) }}
+															<div class="clear"></div>
+														</div>	
+														<div class="col_half col_last fright">
+															<label for="billing-form-name">{{"Note"|trans}} - {{key}}:</label>
+															{{ form_widget(tasksField.note) }}
+															<div class="clear"></div>
+														</div>																										
+													{% endfor %}
+												</div>	
+												<div class="col-lg-12 ">
+													<div class="col_half" style="padding-top:20px">
+														<button type="button"
+															class="add-another-collection-widget button button-3d fright"
+															data-list="#email-fields-list"
+														>
+															{{ button_label|default('Add another task') }}
+														</button>													
+													</div>
+													<div class="col_half col_last fright" style="padding-top:20px">
+														<button class="button button-3d fright">{{ button_label|default('Save') }}</button>
+													</div>														
+													<div class="clear"></div>	
+												</div>																					
+											{{ form_end(form) }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="w-100 line d-block d-md-none"></div>
+						<div class="col-md-3 clearfix">
+							<div class="list-group">
+								<a href="{{path('profile', {'_locale': app.request.locale})}}" class="list-group-item list-group-item-action clearfix">
+									{{"My Profile"|trans}}<i class="icon-user float-right"></i>
+								</a>
+								<a href="#" class="list-group-item list-group-item-action clearfix">Billing <i class="icon-credit-cards float-right"></i></a>
+								<a href="{{path('logout')}}" class="list-group-item list-group-item-action clearfix">
+									{{"Logout"|trans}}<i class="icon-line2-logout float-right"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section><!-- #content end -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script> 
+		// add-collection-widget.js
+		jQuery(document).ready(function () {
+			jQuery('.add-another-collection-widget').click(function (e) {
+				var list = jQuery(jQuery(this).attr('data-list'));
+				// Try to find the counter of the list
+				var counter = list.data('widget-counter') | list.children().length;
+				// If the counter does not exist, use the length of the list
+				if (!counter) { counter = list.children().length; }
+
+				// grab the prototype template
+				var newWidget = list.attr('data-prototype');
+				// replace the "__name__" used in the id and name of the prototype
+				// with a number that's unique to your emails
+				// end name attribute looks like name="contact[emails][2]"
+				newWidget = newWidget.replace(/__name__/g, counter);
+				// Increase the counter
+				counter++;
+				// And store it, the length cannot be used if deleting widgets is allowed
+				list.data(' widget-counter', counter);
+
+				// create a new list element and add it to the list
+				var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+				newElem.appendTo(list);
+			});
+		});
+    </script>    
+{% endblock %}

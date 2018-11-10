@@ -27,7 +27,13 @@ class UsersController extends BaseController
         Users $user
     ): Response
     {
-        $form = $this->createForm(UsersType::class, $user);
+        $form = $this->createForm(
+            UsersType::class, 
+            $user,
+            array(
+                'attr'=> ['formType'=>'editUser']
+            )
+        );
         $form->handleRequest($request);
         // Request Form
         if ($form->isSubmitted() && $form->isValid()) {

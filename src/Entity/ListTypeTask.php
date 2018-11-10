@@ -54,9 +54,9 @@ class ListTypeTask
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="created_on", type="datetime", nullable=true)
      */
-    private $createdOn = 'CURRENT_TIMESTAMP';
+    private $createdOn;
 
     /**
      * @var \ListTypeProject

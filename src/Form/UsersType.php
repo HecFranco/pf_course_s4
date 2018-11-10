@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,6 +22,7 @@ use App\Form\EmailsType;
 use App\Form\ProfilesType;
 
 use App\Entity\Profiles;
+use App\Entity\Users;
 use App\Entity\ListRoles;
 
 use App\Form\EventSubscriber\AddFieldUserSubscriber;
@@ -37,20 +37,27 @@ class UsersType extends AbstractType
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {   
+        $formType = (!empty($options['attr']) && $options['attr']['formType'])? $options['attr']['formType'] : null ;
         $user = $this->tokenStorage->getToken()->getUser();
-        if(in_array("ROLE_ADMIN", $user->getRoles())){
+        if(
+            $user instanceof Users && 
+            in_array("ROLE_ADMIN", $user->getRoles()) && 
+            isset($options) &&
+            isset($options['attr']) &&
+            $formType === 'editUser'
+        ){
             $builder
-            ->add('roles', EntityType::class, array(
-                'attr' => array('class' => 'sm-form-control'),
-                'label' => false,
-                // looks for choices from this entity
-                'class' => ListRoles::class,
-                // uses the User.username property as the visible option string
-                'choice_label' => 'role',
-                // used to render a select box, check boxes or radios
-                'multiple' => false,
-                'expanded' => false,
-            ));
+                ->add('roles', EntityType::class, array(
+                    'attr' => array('class' => 'sm-form-control'),
+                    'label' => false,
+                    // looks for choices from this entity
+                    'class' => ListRoles::class,
+                    // uses the User.username property as the visible option string
+                    'choice_label' => 'role',
+                    // used to render a select box, check boxes or radios
+                    'multiple' => false,
+                    'expanded' => false,
+                ));
         }
         // Standar fields form
         $builder
@@ -68,7 +75,7 @@ class UsersType extends AbstractType
                     'label' => false
                     )
                 )
-            ;       
+            ;                  
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -56,38 +56,4 @@ class ListTypeProjectController extends BaseController
     {
         return $this->render('list_type_project/show.html.twig', ['list_type_project' => $listTypeProject]);
     }
-
-    /**
-     * @Route("/{id}/edit", name="list_type_project_edit", methods="GET|POST")
-     */
-    public function edit(Request $request, ListTypeProject $listTypeProject): Response
-    {
-        $form = $this->createForm(ListTypeProjectType::class, $listTypeProject);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('list_type_project_edit', ['id' => $listTypeProject->getId()]);
-        }
-
-        return $this->render('list_type_project/edit.html.twig', [
-            'list_type_project' => $listTypeProject,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="list_type_project_delete", methods="DELETE")
-     */
-    public function delete(Request $request, ListTypeProject $listTypeProject): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$listTypeProject->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($listTypeProject);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('list_type_project_index');
-    }
 }

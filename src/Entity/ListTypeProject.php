@@ -50,13 +50,13 @@ class ListTypeProject
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
-    private $createdOn = 'CURRENT_TIMESTAMP';
+    private $createdOn;
 
     /**
      * One Product has Many Features.
-     * @ORM\OneToMany(targetEntity="App\Entity\ListTypeTask", mappedBy="typeProject")
+     * @ORM\OneToMany(targetEntity="App\Entity\ListTypeTask", cascade={"persist"}, mappedBy="typeProject")
      */
     private $tasks;
 
@@ -141,7 +141,6 @@ class ListTypeProject
     {
         if (!$this->tasks->contains($tasks)) {
             $this->tasks[] = $tasks;
-            $tasks->setUser($this);
         }
 
         return $this;
@@ -151,10 +150,6 @@ class ListTypeProject
     {
         if ($this->tasks->contains($tasks)) {
             $this->tasks->removeElement($tasks);
-            // set the owning side to null (unless already changed)
-            if ($tasks->getUser() === $this) {
-                $tasks->setUser(null);
-            }
         }
         return $this;
     }

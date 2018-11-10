@@ -83,9 +83,7 @@ class AuthenticationService
         // exist user??
         $existUser = $this->existUser($email);
         if(!$existUser){
-            dump($userData);
             return $this->createNewUser($userData);
-            dump('as¡asdf');
         }else{
             return $this->em->getRepository(Users::class)->findOneBy(array('username'=>$email));
         }

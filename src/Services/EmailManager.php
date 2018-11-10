@@ -44,7 +44,7 @@ class EmailManager
         // ->setFrom('send@example.com')
         ->setFrom($this->emailFrom)
         // ->setTo('recipient@example.com')
-        ->setTo($user)
+        ->setTo($user->getUsername())
         ->setBody(
             $this->templating->render(
                 // templates/emails/budgetComplete.html.twig
