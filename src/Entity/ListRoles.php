@@ -35,9 +35,19 @@ class ListRoles
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $createdOn = 'CURRENT_TIMESTAMP';
+    private $createdOn;
 
-    public function getId(): ?int
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Users", mappedBy="role")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
+        public function getId(): ?int
     {
         return $this->id;
     }
@@ -70,5 +80,34 @@ class ListRoles
     {
         return $this->getRole();
     }
+
+    /**
+     * @return Collection|Users[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(Users $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Users $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeRole($this);
+        }
+
+        return $this;
+    }
+
 
 }

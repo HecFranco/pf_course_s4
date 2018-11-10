@@ -71,23 +71,16 @@ class ListTypeTask
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Projects", mappedBy="tasks")
-     */
-    private $projects;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\ManyToMany(targetEntity="Budgets", mappedBy="tasks")
      */
-    private $budgets;    
+    private $budgets;  
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->budgets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,29 +168,22 @@ class ListTypeTask
         return $this->budgets;
     }
 
-    /**
-     * @return Collection|Projects[]
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
 
-    public function addProject(Projects $project): self
+    public function addBudget(Budgets $budget): self
     {
-        if (!$this->projects->contains($project)) {
-            $this->projects[] = $project;
-            $project->addTasks($this);
+        if (!$this->budgets->contains($budget)) {
+            $this->budgets[] = $budget;
+            $budget->addTask($this);
         }
 
         return $this;
     }
 
-    public function removeProject(Projects $project): self
+    public function removeBudget(Budgets $budget): self
     {
-        if ($this->projects->contains($project)) {
-            $this->projects->removeElement($project);
-            $project->removeTasks($this);
+        if ($this->budgets->contains($budget)) {
+            $this->budgets->removeElement($budget);
+            $budget->removeTask($this);
         }
 
         return $this;

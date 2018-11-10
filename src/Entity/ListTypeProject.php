@@ -38,12 +38,16 @@ class ListTypeProject
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
 
     /**
-     * @ORM\Column(type="float")
+     * @var float
+     *
+     * @ORM\Column(name="base_price", type="float", precision=10, scale=0, nullable=false)
      */
     private $basePrice;
 

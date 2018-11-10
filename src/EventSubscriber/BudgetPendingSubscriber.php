@@ -41,6 +41,6 @@ class BudgetPendingSubscriber implements EventSubscriberInterface
         BudgetPendingEvent $budgetPendingEvent
     )
     {
-        $this->emailManager->budgetPending($BudgetPendingEvent->getBudget());
+        $this->emailManager->budgetPending($budgetPendingEvent->getBudget());
     }
 }

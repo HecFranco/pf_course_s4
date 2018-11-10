@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Projects
  *
- * @ORM\Table(name="projects", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="state_project_id", columns={"state_project_id"}), @ORM\Index(name="type_project_id", columns={"type_project_id"})})
+ * @ORM\Table(name="projects", indexes={@ORM\Index(name="budget_id", columns={"budget_id"}), @ORM\Index(name="user_id", columns={"user_id"})})
  * @ORM\Entity
  */
 class Projects
@@ -38,14 +38,21 @@ class Projects
     private $note;
 
     /**
-     * @var \ListStateProject
+     * @var string|null
      *
-     * @ORM\ManyToOne(targetEntity="ListStateProject")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="state_project_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="state_project", type="string", length=40, nullable=true)
      */
     private $stateProject;
+
+    /**
+     * @var \Budgets
+     *
+     * @ORM\ManyToOne(targetEntity="Budgets")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="budget_id", referencedColumnName="id")
+     * })
+     */
+    private $budget;
 
     /**
      * @var \Users
@@ -56,39 +63,6 @@ class Projects
      * })
      */
     private $user;
-
-    /**
-     * @var \ListTypeProject
-     *
-     * @ORM\ManyToOne(targetEntity="ListTypeProject")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="type_project_id", referencedColumnName="id")
-     * })
-     */
-    private $typeProject;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ListTypeTask", inversedBy="projects")
-     * @ORM\JoinTable(name="projects_tasks",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="projects_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="task_id", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $tasks;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -119,14 +93,26 @@ class Projects
         return $this;
     }
 
-    public function getStateProject(): ?ListStateProject
+    public function getStateProject(): ?string
     {
         return $this->stateProject;
     }
 
-    public function setStateProject(?ListStateProject $stateProject): self
+    public function setStateProject(?string $stateProject): self
     {
         $this->stateProject = $stateProject;
+
+        return $this;
+    }
+
+    public function getBudget(): ?Budgets
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?Budgets $budget): self
+    {
+        $this->budget = $budget;
 
         return $this;
     }
@@ -143,42 +129,5 @@ class Projects
         return $this;
     }
 
-    public function getTypeProject(): ?ListTypeProject
-    {
-        return $this->typeProject;
-    }
-
-    public function setTypeProject(?ListTypeProject $typeProject): self
-    {
-        $this->typeProject = $typeProject;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ListTypeTask[]
-     */
-    public function getTasks(): Collection
-    {
-        return $this->tasks;
-    }
-
-    public function addTask(ListTypeTask $tasks): self
-    {
-        if (!$this->tasks->contains($tasks)) {
-            $this->tasks[] = $tasks;
-        }
-
-        return $this;
-    }
-
-    public function removeTask(ListTypeTask $tasks): self
-    {
-        if ($this->tasks->contains($tasks)) {
-            $this->tasks->removeElement($tasks);
-        }
-
-        return $this;
-    }
 
 }

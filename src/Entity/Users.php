@@ -30,16 +30,16 @@ class Users implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=250, nullable=false)
+     * @ORM\Column(name="locale", type="string", length=20, nullable=false)
      */
-    private $username;
+    private $locale;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="locale", type="string", length=250, nullable=false)
+     * @ORM\Column(name="username", type="string", length=250, nullable=false)
      */
-    private $locale;
+    private $username;
 
     /**
      * @var string
@@ -63,14 +63,14 @@ class Users implements UserInterface
     private $isActive;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=true)
      */
     private $modifiedOn;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=true)
      */
@@ -85,19 +85,15 @@ class Users implements UserInterface
      * })
      */
     private $profile;
-
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Emails", mappedBy="user", cascade={"persist"})
      */
     private $emails;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ListRoles")
+     * @ORM\ManyToMany(targetEntity="App\Entity\ListRoles", inversedBy="users")
      */
     private $role;
-
-
 
     /**
      * Constructor
@@ -116,6 +112,18 @@ class Users implements UserInterface
         return $this->id;
     }
 
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
     public function getUsername(): ?string
     {
         return $this->username;
@@ -127,18 +135,6 @@ class Users implements UserInterface
 
         return $this;
     }
-
-    public function getLocale(): ?string
-    {
-        return $this->locale;
-    }
-
-    public function setLocale(string $locale): self
-    {
-        $this->locale = $locale;
-
-        return $this;
-    }    
 
     public function getPassword(): ?string
     {
@@ -181,7 +177,7 @@ class Users implements UserInterface
         return $this->modifiedOn;
     }
 
-    public function setModifiedOn(\DateTimeInterface $modifiedOn): self
+    public function setModifiedOn(?\DateTimeInterface $modifiedOn): self
     {
         $this->modifiedOn = $modifiedOn;
 
@@ -193,7 +189,7 @@ class Users implements UserInterface
         return $this->createdOn;
     }
 
-    public function setCreatedOn(\DateTimeInterface $createdOn): self
+    public function setCreatedOn(?\DateTimeInterface $createdOn): self
     {
         $this->createdOn = $createdOn;
 
@@ -211,9 +207,6 @@ class Users implements UserInterface
 
         return $this;
     }
-
-
-
     /**
      * @return Collection|Emails[]
      */
@@ -252,7 +245,6 @@ class Users implements UserInterface
     public function eraseCredentials()
     {
     }
-
     /**
      * @return Collection|ListRoles[]
      */
@@ -265,6 +257,14 @@ class Users implements UserInterface
             $roles[] = $user_role->getRole();
         }
         return $roles;
+    }
+    
+    /**
+     * @return Collection|ListRoles[]
+     */
+    public function getRole(): Collection
+    {
+        return $this->role;
     }
 
     public function addRole(ListRoles $role): self
