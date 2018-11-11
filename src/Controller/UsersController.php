@@ -27,6 +27,8 @@ class UsersController extends BaseController
         Users $user
     ): Response
     {
+        // check for "view" access: calls all voters
+        $this->denyAccessUnlessGranted('editUser', $this->getUser());
         $form = $this->createForm(
             UsersType::class, 
             $user,

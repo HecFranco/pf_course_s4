@@ -17,18 +17,19 @@ class AuthenticationControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
         $this->assertEquals(1, $crawler->filter('button[type=submit]')->count());
+        $this->assertEquals(1, $crawler->filter('button[type=submit]')->count());
     } 
     public function testInputEmail()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
-        $this->assertEquals(1, $crawler->filter('input[id=username]')->count());
+        $this->assertEquals(1, $crawler->filter('input[name=_username]')->count());
     } 
     public function testInputPassword()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
-        $this->assertEquals(1, $crawler->filter('input[id=password]')->count());
+        $this->assertEquals(1, $crawler->filter('input[name=_password]')->count());
     }  
     public function testInputEmailEmpty()
     {

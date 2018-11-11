@@ -52,4 +52,28 @@ framework:
                     to:   in_process
                 to_terminated:
                     from: in_process
-                    to:   terminated                 
+                    to:   terminated    
+        tasks:
+            type: 'workflow' # or 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'single_state' # or 'multiple_state'
+                arguments:
+                    - 'stateTask'
+            supports:
+                - App\Entity\ProjectsTasks
+            initial_place: unallocated
+            places:
+                - unallocated
+                - assigned
+                - terminated
+            transitions:
+                to_unallocated:
+                    to:   unallocated
+                to_assigned:
+                    from: unallocated
+                    to:   assigned
+                to_terminated:
+                    from: assigned
+                    to:   terminated                                  

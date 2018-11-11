@@ -19,7 +19,7 @@ use App\Form\RegisterType;
 
 use App\Services\AuthenticationService;
 
-class SecurityController extends BaseController
+class AuthenticationController extends BaseController
 {
     /**
      * @Route( {
@@ -33,7 +33,7 @@ class SecurityController extends BaseController
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
         // check for "view" access: calls all voters
-        $this->denyAccessUnlessGranted('access', $this->getUser());
+        $this->denyAccessUnlessGranted('login', $this->getUser());
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
