@@ -1,5 +1,5 @@
 <?php
-
+// src/Form/ListTypeProjectType.php
 namespace App\Form;
 
 use App\Entity\ListTypeProject;
@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 use App\Form\ListTypeTask;
 

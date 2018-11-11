@@ -31,6 +31,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    # FORM ######################################################################################
+    App\Form\UsersType:
+        public: true
+        arguments:  ['@security.token_storage']
+    # FORM EVENT SUBSCRIBER #####################################################################
     App\Form\EventSubscriber\AddFieldBudgetSubscriber:
         arguments: 
             - '@doctrine.orm.entity_manager'
@@ -38,21 +43,20 @@ services:
             - '@security.authentication_utils'
         tags:
             - { name: kernel.event_subscriber }
+    # EVENT LISTENER ############################################################################           
     App\EventListener\LoginListener:
         arguments:
             - '@security.authorization_checker'            
             - '@router'
             - '@event_dispatcher'  
         tags:
-            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }          
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }                                  
+    # EVENT SUBSCRIBER ##########################################################################                      
     App\EventSubscriber\LocaleSubscriber:
         arguments: ['%kernel.default_locale%']
         # uncomment the next line if you are not using autoconfigure
         # tags: [kernel.event_subscriber]                
-
-    App\Form\UsersType:
-        public: true
-        arguments:  ['@security.token_storage']
+    # SERVICES ##################################################################################     
     App\Services\AuthenticationService:
         arguments: 
             - '@doctrine.orm.entity_manager'

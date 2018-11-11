@@ -1,4 +1,9 @@
 <?php
+// src/EventListener/BudgetWorkflowListener.pdp
+
+namespace App\EventListener;
+
+use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\Workflow\Event\GuardEvent; 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
